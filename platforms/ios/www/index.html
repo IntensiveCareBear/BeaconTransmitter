@@ -129,20 +129,21 @@
 
             didDetermineStateForRegion: function (pluginResult) {
 
-                logToDom('[DOM] didDetermineStateForRegion: ' + JSON.stringify(pluginResult));
+                // logToDom('[DOM] didDetermineStateForRegion: ' + JSON.stringify(pluginResult));
 
                 cordova.plugins.locationManager.appendToDeviceLog('[DOM] didDetermineStateForRegion: '
                     + JSON.stringify(pluginResult));
             },
 
             didStartMonitoringForRegion: function (pluginResult) {
-                console.log('didStartMonitoringForRegion:', pluginResult);
-
-                logToDom('didStartMonitoringForRegion:' + JSON.stringify(pluginResult));
+                
+                // yyyyy
             },
 
             didRangeBeaconsInRegion: function (pluginResult) {
-                logToDom('[DOM] didRangeBeaconsInRegion: ' + JSON.stringify(pluginResult));
+                sortByKey(pluginResult.beacons,'rssi');
+                var nearest = pluginResult.beacons.pop();
+                logToDom('NEAREST: ' + JSON.stringify(nearest));
             }
 
         });
@@ -151,7 +152,7 @@
         var identifier = 'genesysBeacon';
         var minor = 0001;
         var major = 0001;
-        var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor);
+        var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(identifier, uuid);
 
         cordova.plugins.locationManager.setDelegate(delegate);
         cordova.plugins.locationManager.startRangingBeaconsInRegion(beaconRegion)
@@ -161,6 +162,22 @@
 
 
     
+}
+</script>
+<script type="text/javascript">
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key];
+        var y = b[key];
+
+        if (typeof x == "string")
+        {
+            x = x.toLowerCase(); 
+            y = y.toLowerCase();
+        }
+
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
 }
 </script>
 
