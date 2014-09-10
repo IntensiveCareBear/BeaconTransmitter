@@ -190,11 +190,11 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region {
-    
     NSMutableArray* beaconsMapsArray = [NSMutableArray new];
     for (CLBeacon* beacon in beacons) {
         NSDictionary* dictOfBeacon = [self mapOfBeacon:beacon];
         [beaconsMapsArray addObject:dictOfBeacon];
+    
     }
     
     [self.queue addOperationWithBlock:^{
